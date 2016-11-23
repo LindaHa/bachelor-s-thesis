@@ -1,0 +1,62 @@
+\documentclass[
+    nolot,
+    color,   % Enables colorful typesetting. Replace with
+             % `monochrome`, if you are going to print the
+             % thesis on a monochromatic printer.
+	table,   % Causes the coloring of tables. Replace with
+             % `notable` to restore plain tables.
+    twoside, % Enables double-sided typesetting. Replace
+             % with `oneside`, if you are going to print
+             % your thesis on only one side of the paper.
+    % More options are listed in the class documentation
+    % available at <https://www.ctan.org/pkg/fithesis>.
+]{fithesis/fithesis3}
+\bibliographystyle{plain}
+\usepackage[english]{babel} % By using `czech` or `slovak`
+% instead of `english`, you can typeset the entire thesis
+% in either Czech or Slovak, respectively. Changing the
+% language requires a clean compilation; click `recompile
+% from scratch`, when Overleaf raises an error.
+\usepackage{import}
+\thesissetup{
+	university    = mu,
+	faculty       = fi,
+    type          = bc,
+    author        = Linda Hansliková,
+    gender        = f,
+    advisor       = {Bruno Rossi, Ph.D},
+    title         = {A Mobile Application for the Administration of the Kentico System},
+    TeXtitle      = {A Mobile Application for the Administration of the Kentico System},
+    keywords      = {mobile, kentico, javascript, jquery, webapi},
+    TeXkeywords   = {mobile, kentico, javascript, jquery, webapi},
+    assignment    = {}
+}
+\thesislong{abstract}{
+	The purpose of this bachelor thesis is t...
+}
+\thesislong{thanks}{
+	I would like to thank my supervisor..
+}
+
+% The beginning of the document
+\usepackage{amsmath}
+\usepackage{tabularx}
+\usepackage{booktabs}
+
+\usepackage{listings}
+\lstdefinestyle{sharpc}{language=[Sharp]C, basicstyle=\ttfamily\footnotesize, breaklines=true}
+
+\begin{document}
+  \pagestyle{plain}
+  
+  \chapter{Introduction}
+  \import{chapters/}{introduction.tex}
+  \chapter{Analysis}
+  \import{chapters/}{analysis.tex}
+  \chapter{Implementation}\chaptermark{Implementation}
+  \import{chapters/}{Implementation.tex}
+  
+  \chapter{Conclusion}
+  \import{chapters/}{conclusion.tex}
+  \bibliography{bib_file}{}
+\end{document}
