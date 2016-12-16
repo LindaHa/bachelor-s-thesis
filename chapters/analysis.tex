@@ -1,10 +1,5 @@
 \footnote{Example footnote}
 %Example of comment
-Eample enumerate: \begin{enumerate}
-\item item 1
-\item item 2
-\item item 3
-\end{enumerate}
 
 \section{Kentico CMS} \label{analysisKenticoCMS}
 Kentico CMS is a content management system (CMS) which allows clients to create and manage their web-sites using a single user interface (UI) which is made of tiles, a layout and an edit button. Each tile has its own functionality. The client can rearrange them either by simply dragging them or by pressing the edit button. Pressing the button leads to the tiles having an \textit{X} in the upper-right corner for removing the tile. If place on the dashboard is available, a blank rectangle with a plus in the position of the future tile enables the client to add a new tile from the menu. 
@@ -38,6 +33,44 @@ The functionality in the menu is divided into six categories, namely: Content Ma
 
 
 \section{Web Application Interface} \label{analysisWebAPI}
+	\subsection{REST} \label{analysisREST}
+	REST is an architecture of client-server communication. API calls built using this architecture utilises JSON format and are lightweight. This means they operate with simple data representation and therefore the delay between sending and delivering is comparatively small. The client needs no knowledge of how the server is built. It depends on the resources (nouns) and operations (verbs). Hyper text transfer protocols (Http) status codes (SC) can be returned after executing the verbs. The nouns are identified with Universal Resource Identifiers (URIs). Each URI represents only one noun. The system returns a SC depending on the success of the call and if unsuccessful according to the reason why the call was unsuccessful. Some of the most common SCs are described below. \cite{rfc-2616}
+	\begin {description}
+	\item [200 OK] SC means the request was successful and the data have been returned. SC \textit{204 No Content} represents the same meaning but returns nothing.
+	\item [201 Created] is used when the request was successful and the resource was created. It should return a link to the resource created.
+	\item [400 Bad Request] is returned when the given parameters were invalid. A reason might be added in the error message. The call should be repeated with different parameters.
+	\item [401 Unauthorized] it transmits the information the user should try and sign in again. It is meant to be returned if the client is not signed in or does not have the needed permissions. However, it mostly is returned if the user is not authenticated.
+	\item [403 Forbidden] its purpose is to let the user know not to repeat the request. It is meant to be returned if the client is authorized and authenticated but the system refuses to execute the call but it is most often applied in case the client is not authorized to execute a specific call.
+	\item [404 Not Found] is given if a resource is not found with the given URI and it is unknown how long this condition will remain. It can be used if the reason for the failure remain unknown or a resource has to be hidden. Also this is the SC which is applied if no other code is suitable.
+	%\item [500 Internal Server Error] is returned if the server failed the call due to an unexpected event. 
+	\item [503 Service Unavailable] SC means the server is not able to fulfil the request at the moment. It is utilised when maintaining the server or overloading it.
+	\end{description}	
+	Verbs are described using the following keywords: \textit{GET}, \textit{POST}, \textit{PUT}, \textit{PATCH} and \textit{DELETE}. For the description of them we provided two example URIs:
+	
+	\begin{enumerate}
+	\item 
+	\lstset{style=sharpc}
+	\begin{lstlisting}
+	http://example.com/students/47
+	\end{lstlisting}
+	
+	\item 
+	\lstset{style=sharpc}
+	\begin{lstlisting}
+	http://example.com/students
+	\end{lstlisting}
+	\end{enumerate}
+	
+	\begin {description}
+	\item [GET] is used to read data from the server. It is read only, data must not be changed. The SCs it returns are \textit{200}, \textit{400} and \textit{404}. The first URI example with the prefix \textit{GET}returns the student with the ID 47.
+	\item [POST] is mostly utilised to create data. It returns SCs such as \textit{201}, \textit{400} or \textit{404}. The second URI with the prefix \textit{POST} creates a new student and returns the resource's location.		
+	\item [PUT] is most commonly leveraged for updating resources with the sent data. The data are a representation of the complete resource. It returns SCs \textit{200}, \textit{204} and \textit{404}. The first URI edits the student with the id 47.
+	\item [PATCH] is mostly used for modifying resources. The difference between PATCH and PUT is the sent data can be described by only a part of the resource that needs to be changed. It returns the same SCs as \textit{PUT}. The first URI the student with the id 47. The illustration below modifies the student with the ID 47.
+	\item [DELETE] deletes the resource. It returns the status codes \textit{200} and \textit{404}. The first example URI deletes the student with the id 47.
+	\end{description}
+	Each verb can be shared among multiple nouns. However, each noun might not be able to use each verb. For example a session usually is not updated, therefore the verb \textit{PUT} is not used with the session resource.
+	
+	The server's and client's platform is not relevant. Which is the reason why REST is widely used in web apps. The session between the client and server is stateless, which means the server does not store the client's state. Instead it generates an AT which is send to the client. This is an advantage since the client is enabled to communicate with different servers or machines. Another benefit is if the server has to be restarted no data of the client's state are lost. It also makes the system highly scalable. Rest is an alternative to Simple Object Access Protocol (SOAP), which is more complicated. It has a steeper learning curve and instead of JSON files it sends Extensible Markup Language (XML). On initialisation, SOAP sends and XML file with the description of the architecture. It is slower and heavier than REST. 
 
 \section{Mobile applications} \label{analysisMobileApplications}
 Mobile apps are more important every day since \textit{no other technology has impacted us like the mobile phone. It's the fastest growing manmade phenomenon ever -- from zero to 7.2 billion in three decades.}\cite{more-gadgets-on-earth-than-people} The platforms, on which these apps run on, can be divided into three main categories: Android, iPhone OS (iOS) and the Windows family of operating systems for mobile devices (WM). The most used operating system (OS) with a share of 68.67\% of all mobile devices as of November 2016, according to \textit{netmarketshare.com} \cite{operating-system-market-share} is Android. It was  released in September 2008 and its native language is Java. With a percentage of 25.71\%, iOS is the second most sold mobile OS and was released in June 2007. Its native language is objective C. The third platform is WM with 1.75\% share. It was first released in November 2010 and the native language is C\#. 
@@ -49,6 +82,5 @@ Mobile apps can be divided into three types: Native, HTML5 and Hybrid.
 \item [Hybrid] This is a combination of the two above. It is primarily built utilising CSS, HTML5 and JS and is \textit{hosted inside a native application that utilizes a mobile platform’s WebView.} \cite{hybrid-mobile-app} The bridge to native technologies is ensured by tools, for example in this thesis Apache Cordova is used. A WebView is a headless browser, without any buttons and without higher level functionality such as tabs, navigation, etc. The perks of this approach is the small learning curve. Thanks to HTML5 it is cross-platform and the native wrapper allows it to use the device's hardware. It still runs slower than Native but is cheaper when more OSs are targeted.
 \end{description}
 
-When creating an app the developer has to consider what approach will be the most effective one. If the graphical performance is crucial, the app should be native. If it has to run on multiple platforms, utilise a device's hardware component and the graphics are not that important, probably hybrid would be the best fit. If the app displays what was sent to it and the has no dynamic graphics then HTML5 should suffice.
+When creating an app the developer has to consider what approach will be the most effective one. If the graphical performance is crucial, the app should be native. If it has to run on multiple platforms, make use of a device's hardware component and the graphics are not that important, probably hybrid would be the best fit. If the app displays what was sent to it and the has no dynamic graphics then HTML5 should suffice.
 
-\section{REST} \label{analysisREST}
