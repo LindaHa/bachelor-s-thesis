@@ -1,4 +1,10 @@
 \section{Application Overview}
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=\textwidth]{Images/Architecture.png}
+  \caption{Architecture overview}
+  \label{architectureOverview}
+\end{figure}
 This thesis consists of two parts. The first of which is the~CAPI backend. It stores and retrieves data from and to the database via calls to the KAPI. It itself is called by the second part - the~mobile client app, called KenticoApp, through which the~user is able to communicate with the~system and manage his site.
 
 The CAPI partially follows the representational state transfer (REST) architecture by using appropriate Http. For example we use POST requests for creating or GET requests for reading resources from the backend. The usage of status codes, such as 200, 403 or 503 is also a RESTful convention. Our backend is stateless. This is achieved by using ATs instead of storing the user session across multiple Http requests. One of the reasons why we cannot call this application RESTful is it does not follow the fundamental concept of identifying all resources and relationships between them. For example our \textit{System} "resource" contains the method \textit{ClearCache()} and \textit{ShowEventlog()}. These should be identified in separate resources \textit{CacheClearer} and \textit{Eventlog}. Further description of the CAPI can be found below.
@@ -6,13 +12,6 @@ The CAPI partially follows the representational state transfer (REST) architectu
 The KenticoApp is a web app which can be used by global admins. It offers a welcome page where the user has to sign in. If the authentication is successful and the user has the proper authorization, the user is redirected to a menu page with three buttons and their descriptions, each one representing a controller in the CAPI. From there on the user can choose what action to conduct. A layout with options such as view the current user or logout is available. It also contains the route to the current page. 
 
 The communication between the CAPI and KenticoApp is ensured by Ajax using JSON format. It is an effective way to broadcast information via a simple string.
-
-\begin{figure}[ht!]
-  \centering
-  \includegraphics[width=\textwidth]{Images/Architecture.png}
-  \caption{Architecture overview}
-  \label{architectureOverview}
-\end{figure}
 
 \section{Extending Kentico} \label{implExtendingKentico}
 \subsection{Custom Kentico Module}
@@ -22,10 +21,11 @@ TODO:
 \subsection{Kentico 9.0 API}
 
 \section{Web API Application}
+\subsection{Microsoft Web (MS) API 1.0}
 MS API 1.0 brings several features, one of which is the \textit{System.Web.Http.ApiController}. All of our controllers inherit it. It enables to return the SC and possibly a JSON representation of the data we want to return. Another component is the \textit{System.Web.Http.Filters.ActionFilterAttribute} which is inherited by the filter in the CAPI. It allows to implement the method \textit{OnActionExecuting()}. This method is called before the executing of a call and checks if the conditions described in the method \textit{OnActionExecuting()} are met. Additional benefits of MS API 1.0 include making it possible to use the annotation \textit{[Route("example.com/students")]} which indicates the location where the following method can be called. It also offers the usage of verb tags such as \textit{HttpPost} or \textit{HttpGet}. These annotations specify the type of the operation, e.g. whether the server should expect data. Another feature is it implements the \textit{[FromBody]JObject postData} attribute. This attribute is sent from the web app and can contain one or more objects in the JSON format. 
 
 Since source code on the frontend can be easily read and modified by unauthorized users, security measures should be implemented in the backend app. To secure our system we use access tokens (ATs) and a filter. Filters are used to prevent unauthorized users from executing operations. They are noted through annotation, e.g. \textit{[Authorizator]}, either in front of a particular method, or in front of a whole controller so that all its methods are affected. The filter we use is called \textit{Authorizator} and, as already stated, it inherits from the \textit{ActionFilterAttribute}. It was implemented as our custom authorization filter and checks if the user is authenticated and if he is a global admin since only global admins are permitted to use the KenticoApp. If not, the SC 403 is returned.
-Our API uses controller classes to divide functionality into section for better overview and security. Each controller contains methods mainly affecting resources represented by it. In this thesis four controllers were implemented: \textit{AuthenticationController}, \textit{AuthorizationController}, \textit{UserController} and \textit{SystemController}. Each one of these controllers symbolizes a group of related functionality. For example the \textit{AuthorizationController} contains methods for managing roles and permissions. 
+CAPI uses controller classes to divide functionality into section for better overview and security. Each controller contains methods mainly affecting resources represented by it. In this thesis four controllers were implemented: \textit{AuthenticationController}, \textit{AuthorizationController}, \textit{UserController} and \textit{SystemController}. Each one of these controllers symbolizes a group of related functionality. For example the \textit{AuthorizationController} contains methods for managing roles and permissions. 
 The API call structure is demonstrated in the illustrated code below. This specific call edits a user.
 \lstset{style=sharpc, numbers=left}
 \begin{lstlisting}
@@ -88,10 +88,29 @@ The ID is of the type \textit{int} and is equal to the user's ID who "owns" the 
 Before every API call the system searches its database for expired ATs and deletes them. 
 
 \section{Cordova Mobile Application}
+The development of the KenticoApp was divided into two stages. For the~implementation of the~mobile app we leveraged the ACF. The~reason being it is less demanding to learn and supports seven platforms. For creating the UI  we decided to use JQuery Mobile(JQM). It is an~HTML5-based UI framework which allows users to design aesthetically pleasing mobile elements by utilising the~languages CSS and HTML. Document object model (DOM) elements are individual parts of a web page described by tags such as div, span, input or others. These tags assign styling and properties to elements. For the DOM manipulation we used the~JQuery library which has a~small learning curve and offers a~fast way to add, modify, style and delete elements or change their~behaviour. It also offers a set o handy helper functions which provide easy to use interface for frequently used operations in web development, e.g. \textit{Ajax()}.
 \subsection{Apache Cordova}
-For the~implementation of the~mobile app we leveraged the Apache Cordova framework (ACF). The~reason being it is less demanding to learn and supports seven platforms. As opposed to the~Xamarin framework (XF) supporting only three. Even though XF should be faster than ACF, and therefore offer a smoother user experience, the~difference between execution times of non performance sensitive apps on today's devices is negligible. We did not consider development in native languages, such as Android Java or iOS SWIFT, because of their steep learning curve and the ability to deploy only to one platform. The development was divided into two stages. For creating the UI  we decided to use JQuery Mobile. It is an~HTML5-based UI framework which allows users to design aesthetically pleasing mobile elements by utilising the~languages CSS and HTML. Document object model (DOM) elements are individual parts of a web page described by tags such as div, span, input or others. These tags assign styling and properties to elements. For the DOM manipulation we used the~JQuery library which has a~small learning curve and offers a~fast way to add, modify, style and delete elements or change their~behaviour. It also offers a set o handy helper functions which provide easy to use interface for frequently used operations in web development, e.g. \textit{Ajax()}.
+ ACF is a framework used for creating hybrid mobile apps that are compatible with seven platforms. It allows the programmer to utilise the languages CSS, HTTP and JS. A native wrapper offers offers the simulation of a native app, meaning the app is able to operate native API through libraries. As opposed to the~Xamarin framework (XF) supporting only three. XF is used to build native apps in the language C\# on WM, Android and iOS. When launched on Android or iOS its code is translated into Android Java or iOS Swift. Even though XF should be faster than ACF, and therefore offer a smoother user experience, the~difference between execution times of non performance sensitive apps on today's devices is negligible. We did not consider development in native languages or XF because of their steep learning curve and the limited ability to deploy to multiple platforms. 
+
 \subsection{JQuery Mobile}
-Jquery Mobile is an~open source HTML5-based UI framework. It allows users to design aesthetically pleasing mobile elements by utilising the~languages CSS and HTML. 
+JQM is an~open source HTML5-based UI framework. It allows users to design aesthetically pleasing mobile elements by utilising the~languages CSS and HTML. It also assigns properties to these elements. 
+\lstset{style=sharpc, numbers=left}
+\begin{lstlisting}
+<span class="push-down">
+  <label for="usrname">Username:</label>
+  <input id="usrname-input" name="usrname" placeholder="Username" required />
+  <label for="passwrd">Password:</label>
+  <input id="passwrd-input" input type="password" name="passwrd" placeholder="Password" required />
+  <button id="login-btn" data-role="button" class='ui-btn ui-btn-inline ui-corner-all ui-shadow pull-right'>Log in</button>
+</span>
+\end{lstlisting}
+\begin{SCfigure}
+  \includegraphics[width=\textwidth/2]{Images/WelcomePageIllistration.png}
+  \caption{KenticoApp Welcome Page UI. The content in the red square in this image is the graphical representation of the code sample above. It was created as a print screen of the KenticoApp.}
+  \label{WelcomePageIllistration}
+\end{SCfigure}
+The sample code creates two text fields, their labels and a button. The visualisation is shown in figure \ref{WelcomePageIllistration}. On the first line a \textit{span} element is present. It is used for assigning IDs or classes inside other parent elements, for example if not all children of the parents have the same classes. IDs are used for identifying elements for further use. Two same ID cannot exist in one HTML document. Classes are selectors assigned to elements. They are leveraged for CSS formating or for adding behaviour in JS. The keyword \textit{label} on line 2 ensures the element will behave as a label. Labels are used to describe other elements, e.g. inputs. The \textit{for} keyword determines the described element and should match the \textit{name} in that element. The text between the \textit{label} keywords will be displayed in the UI. The \textit{input} tag on line 3 represents a text field element. Text fields are used to gather inputs from users. The \textit{name} keyword is a selector. A label can be assigned to the input by the \textit{name}. A \textit{placeholder} is text in the text field. It disappears after the cursor is placed into the field and is not considered as input. Because of the \textit{required} tag the field is compulsory and must be filled out. Line 4 is similar to line 2. Line 5 is similar to line 3 with an extra keyword \textit{type}. 
+
 \subsection{Ajax}
 TODO: ajax communication with web API
 
