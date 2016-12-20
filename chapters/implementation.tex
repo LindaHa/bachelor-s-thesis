@@ -1,7 +1,7 @@
 \section{Application Overview}
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=\textwidth]{Images/Architecture.png}
+  \includegraphics[width=0.8\textwidth]{Images/Architecture.png}
   \caption{Architecture overview}
   \label{architectureOverview}
 \end{figure}
@@ -92,24 +92,34 @@ The development of the KenticoApp was divided into two stages. For the~implement
 \subsection{Apache Cordova}
  ACF is a framework used for creating hybrid mobile apps that are compatible with seven platforms. It allows the programmer to utilise the languages CSS, HTTP and JS. A native wrapper offers offers the simulation of a native app, meaning the app is able to operate native API through libraries. As opposed to the~Xamarin framework (XF) supporting only three. XF is used to build native apps in the language C\# on WM, Android and iOS. When launched on Android or iOS its code is translated into Android Java or iOS Swift. Even though XF should be faster than ACF, and therefore offer a smoother user experience, the~difference between execution times of non performance sensitive apps on today's devices is negligible. We did not consider development in native languages or XF because of their steep learning curve and the limited ability to deploy to multiple platforms. 
 
-\subsection{JQuery Mobile}
+\subsection{HTML, CSS, JS}
+These languages are the most common ones in front-end web programming. HTML is a markup language and is used to define the structure of a page. CSS is leveraged to add styles, such as colors, fonts or alignment. JS adds functionality to a page. Because in there are nuances between different browsers and browser versions it can be time consuming to create a page using only these languages. Therefore a framework
 JQM is an~open source HTML5-based UI framework. It allows users to design aesthetically pleasing mobile elements by utilising the~languages CSS and HTML. It also assigns properties to these elements. 
 \lstset{style=sharpc, numbers=left}
 \begin{lstlisting}
-<span class="push-down">
-  <label for="usrname">Username:</label>
-  <input id="usrname-input" name="usrname" placeholder="Username" required />
-  <label for="passwrd">Password:</label>
-  <input id="passwrd-input" input type="password" name="passwrd" placeholder="Password" required />
-  <button id="login-btn" data-role="button" class='ui-btn ui-btn-inline ui-corner-all ui-shadow pull-right'>Log in</button>
-</span>
+<div role="main" id="welcomePageBody" class="ui-content">
+  <span data-position-to="window">
+    <img src="Kentico_logo.png" id="kentico_logo" alt="kentico_logo" style="width:280px">
+  </span>
+  <span class="push-down">
+    <label for="usrname-input">Username:</label>
+    <input id="usrname-input" placeholder="Username" required />
+    <label for="passwrd-input">Password:</label>
+    <input id="passwrd-input" input type="password" required />
+    <button id="login-btn" data-role="button" class='ui-btn ui-btn-inline ui-corner-all ui-shadow pull-right'>Log in</button>
+  </span>
+  <div id="error-msg" class="not-displayed"></div>
+</div>
 \end{lstlisting}
 \begin{SCfigure}
   \includegraphics[width=\textwidth/2]{Images/WelcomePageIllistration.png}
-  \caption{KenticoApp Welcome Page UI. The content in the red square in this image is the graphical representation of the code sample above. It was created as a print screen of the KenticoApp.}
-  \label{WelcomePageIllistration}
+  \caption{KenticoApp Welcome Page UI. The content in the red quadrilateral in this image is the graphical representation of the code sample above. It was created as a print screen of the KenticoApp.}
+  \label{WelcomePageIllustration}
 \end{SCfigure}
-The sample code creates two text fields, their labels and a button. The visualisation is shown in figure \ref{WelcomePageIllistration}. On the first line a \textit{span} element is present. It is used for assigning IDs or classes inside other parent elements, for example if not all children of the parents have the same classes. IDs are used for identifying elements for further use. Two same ID cannot exist in one HTML document. Classes are selectors assigned to elements. They are leveraged for CSS formating or for adding behaviour in JS. The keyword \textit{label} on line 2 ensures the element will behave as a label. Labels are used to describe other elements, e.g. inputs. The \textit{for} keyword determines the described element and should match the \textit{name} in that element. The text between the \textit{label} keywords will be displayed in the UI. The \textit{input} tag on line 3 represents a text field element. Text fields are used to gather inputs from users. The \textit{name} keyword is a selector. A label can be assigned to the input by the \textit{name}. A \textit{placeholder} is text in the text field. It disappears after the cursor is placed into the field and is not considered as input. Because of the \textit{required} tag the field is compulsory and must be filled out. Line 4 is similar to line 2. Line 5 is similar to line 3 with an extra keyword \textit{type}. 
+The sample code above creates a tag with an image, two text fields, their labels and a button. The visualisation is shown in figure \ref{WelcomePageIllustration}. On the first line a \textit{div} element contains a part of the page. \textit{Div} tags divide the page into smaller fractions to diverse the styles, alignments or to create groups for selection. The \textit{role="main"} binds predefined styles to the content of this \textit{div}, for example it will be placed between the header and footer, it defines the paddings\footnote{Padding defines the distance between the border of an element and display of a device} and more. Up next is \textit{id} and \textit{class}IDs are used for identifying elements for further use. Two same IDs cannot exist in one HTML document. Classes can be assigned to multiple elements. Both classes and IDs are selectors and are leveraged for CSS formating or for adding behaviour in JS. In this case, the value of the class is \textit{ui-content} which adds styles to all the elements int this \textit{div}. Tags with the keyword \textit{ui-} are JQM tags and are styled so the user utilising a mobile app feels comfortable using it. On line 2 a \textit{span} element is present. It is used for assigning IDs or classes inside other parent elements, for example if not all children of the parents have the same classes. The \textit{data-position-to} keyword establishes the position of the element. The value \textit{window} makes the position to be the center of the page. The \textit{img} tag represents offers to display an image. The value of \textit{src} represents the relative path to the physical location of the image file on the web server. 
+
+
+On the fifth line a \textit{span} element is present. It is used for assigning IDs or classes inside other parent elements, for example if not all children of the parents have the same classes. The keyword \textit{label} on line 6 ensures the element will behave as a label. Labels are used to describe other elements, e.g. inputs. The \textit{for} keyword determines the described element and should match the \textit{id} in that element. The text between the \textit{label} keywords will be displayed in the UI. The \textit{input} tag on line 7 represents a text field element. Text fields are used to gather inputs from users. The \textit{id} keyword is a selector. A \textit{placeholder} is text in the text field. It disappears after the cursor is placed into the field and is not considered as input. Because of the \textit{required} keyword the field is compulsory and must be filled out. Line 8 is similar to line 6. Line 9 is similar to line 7 with an extra keyword \textit{type}. Its default value is \textit{text}, the user will see what is typing in the field and the input is not restricted. Other types are for example \textit{email}, \textit{number} or \textit{password}. For the \textit{passwrd-input} we used the \textit{password type}. The characters the user is typing into this field cannot be seen, they are displayed as dots.
 
 \subsection{Ajax}
 TODO: ajax communication with web API
