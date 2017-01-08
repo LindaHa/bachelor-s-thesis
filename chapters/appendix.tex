@@ -5,9 +5,9 @@
   \centering
   \includegraphics[width=\textwidth]{Images/SUS.png}
   \caption{the SUS}
-  \label{architectureOverview}
+  \label{susImagelabel}
 \end{figure}
-The image above was downloaded from \cite[susImage]. It represents the SUS graphically. It is evaluated as the sum of all the answers multiplied by 2.5 and then divided by the number of participants. If the gotten value is higher than 68 the usability of the system is above average. This is approach is a rough estimate on how a system is usable.
+This figure represents the SUS graphically. It is evaluated as the sum of all the answers multiplied by 2.5 and then divided by the number of participants. If the gotten value is higher than 68 the usability of the system is above average. This is approach is a rough estimate on how a system is usable.
 The mathematical averages of the answers to each item of our participants were the following: 
 \lstset{style=sharpc, numbers=left}
 \begin{lstlisting}
@@ -31,4 +31,23 @@ After applying said technique to get the result of the usability of KenticoApp w
 \item[3.] To be able to use KenticoApp the user has to have Internet connection
 \item[4.] The username to be able to sign into KenticoApp is \textit{Test} and the password is \textit{admin}
 \end{description}
+
+\chapter{Included Files}
+Here we present a listing of the relevant files included with the thesis.
+\begin{itemize}
+   \item Inside the \textit{Kentico9} folder we include
+   \begin{itemize}     
+	 \item  \textbf{Kentico EMS} source files along with binaries
+	 \item  the \textbf{Custom Web API} directory
+	  \begin{itemize}     
+		\item the \textbf{README.md} file carries the description of how to add the CAPI to an existing Kentico solution
+	  \end{itemize}
+   \end{itemize}
+   \item  Inside the \textit{KenticoApp} folder we include
+	\begin{itemize}
+	 \item \textbf{KenticoApp} source files along with binaries
+     \item the \textbf{android-release.apk} file ready to be downloaded and installed on an Android phone; located in folder \textit{\path {KenticoApp\bin\Android\Release}}
+	 \item a \textbf{README.md} file carries the description of KenticoApp
+	\end{itemize}
+ \end{itemize}
 \end{appendices}
