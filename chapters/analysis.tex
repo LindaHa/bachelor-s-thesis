@@ -35,7 +35,7 @@ More functionality can be added to the KEMS app by using already created modules
 \section{Web API} \label{analysisWebAPI}
 An~API is a~collection of~functionality which a~programmer is able to~utilise in a~third party app. A web API is an API intended for utilisation by a web server or browser. APIs can be implemented following certain architectures, e.g. REST.
 \subsection{REST architecture} \label{analysisREST} \cite{rest}
-REST is an architecture of client-server communication. We decided to be inspired by this architecture since most modern APIs are supported by it. It offers constraints and conventions and the programmer has to decide whether they will be followed or not. 
+REST is an architecture of client-server communication based on the dissertation of Roy T. Fielding \cite{restDissertation}. We decided to be inspired by this architecture since most modern APIs are supported by it. It offers constraints and conventions and the programmer has to decide whether they will be followed or not. 
 
 \cite{hateoas} Hypermedia as the engine of application state (HATEOAS) is one of those restrictions. It demands the API is completely hypermedia driven which means a change of state is achieved using hyperlinks. After sending a request, the returned file contains the wanted commodity but also information about how it can be handled. An example of a HATEOAS response using JSON format is below. JSON will be described later \ref{analysisJson}.
 \lstset{style=sharpc, numbers=none}
